@@ -29,4 +29,10 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+w = FOREACH u GENERATE birthday;
+B = FOREACH w GENERATE birthday,ToDate(birthday, 'yyyy-MM-dd') AS my_date;
+C = FOREACH B GENERATE ToString(my_date,'yyyy') AS my_date,ToString(my_date,'yy') AS my_date2;
+DUMP C;
+STORE C INTO 'output' USING PigStorage(',');
+fs -get output/ .;
 

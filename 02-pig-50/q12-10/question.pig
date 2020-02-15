@@ -33,3 +33,8 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+w = FOREACH u GENERATE (UCFIRST(surname));
+x = FILTER w BY ($0 matches '[D-K].*');
+DUMP x;
+STORE x INTO 'output' USING PigStorage(',');
+fs -get output/ .; 
